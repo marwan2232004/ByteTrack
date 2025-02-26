@@ -14,7 +14,7 @@ ln -s ../crowdhuman/CrowdHuman_val crowdhuman_val
 cd ..
 """
 
-mot_json = json.load(open('datasets/MOT20/annotations/train.json','r'))
+mot_json = json.load(open('datasets/MOT20/annotations/train_half.json','r'))
 
 img_list = list()
 for img in mot_json['images']:
