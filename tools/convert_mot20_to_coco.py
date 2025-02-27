@@ -107,11 +107,11 @@ if __name__ == '__main__':
                             continue
                         if int(anns[i][7]) in [3, 4, 5, 6, 9, 10, 11]:  # Non-person
                             continue
-                        if int(anns[i][7]) in [2, 7, 8, 12]:  # Ignored person
+                        if int(anns[i][7]) in [2, 8, 12]:  # Ignored person
                             #category_id = -1
                             continue
                         else:
-                            category_id = 1  # pedestrian(non-static)
+                            category_id = 1  # pedestrian(non-static) and static person (eg. people working the place or just standing).
                             if not track_id == tid_last:
                                 tid_curr += 1
                                 tid_last = track_id
