@@ -123,7 +123,8 @@ class COCOEvaluator:
 
             data_list.extend(self.convert_to_coco_format(outputs, info_imgs, ids))
 
-        statistics = torch.cuda.FloatTensor([inference_time, nms_time, n_samples])
+        statistics = torch.tensor([inference_time, nms_time, n_samples], dtype=torch.float32, device='cuda')
+
         if distributed:
             data_list = gather(data_list, dst=0)
             data_list = list(itertools.chain(*data_list))
