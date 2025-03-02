@@ -13,7 +13,7 @@ class Exp(MyExp):
         super(Exp, self).__init__()
         self.num_classes = 1
         self.depth = 0.33
-        self.width = 0.5
+        self.width = 0.457
         self.scale = (0.5, 1.5)
         self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
         self.train_ann = "train.json"
