@@ -21,7 +21,7 @@ class Exp(MyExp):
         self.input_size = (608, 1088)
         self.test_size = (608, 1088)
         self.random_size = (12, 26)
-        self.max_epoch = 30
+        self.max_epoch = 80
         self.print_interval = 20
         self.eval_interval = 5
         self.test_conf = 0.001
