@@ -12,8 +12,8 @@ class Exp(MyExp):
     def __init__(self):
         super(Exp, self).__init__()
         self.num_classes = 1
-        self.depth = 0.5
-        self.width = 0.4
+        self.depth = 0.33
+        self.width = 0.5
         self.scale = (0.5, 1.5)
         self.exp_name = os.path.split(os.path.realpath(__file__))[1].split(".")[0]
         self.train_ann = "train.json"
@@ -27,8 +27,17 @@ class Exp(MyExp):
         self.test_conf = 0.001
         self.nmsthre = 0.7
         self.no_aug_epochs = 10
-        self.basic_lr_per_img = 0.001 / 64.0
+        self.basic_lr_per_img = 0.01 / 64.0
+        self.min_lr_ratio = 0.05
         self.warmup_epochs = 2
+
+        self.ema = True
+        self.weight_decay = 5e-4
+        self.momentum = 0.9
+
+        self.enable_mixup = True
+        self.mosaic_scale = (0.8, 1.6)
+
 
     def get_data_loader(self, batch_size, is_distributed, no_aug=False):
         from yolox.data import (
