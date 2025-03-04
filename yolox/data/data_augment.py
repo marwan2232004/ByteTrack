@@ -288,7 +288,7 @@ class ValTransform:
         data
     """
 
-    def __init__(self, rgb_means=None, std=None, swap=(2, 0, 1)):
+    def __init__(self, rgb_means=None, std=None, swap=(2, 0, 1) ,legacy=False):
         self.means = rgb_means
         self.swap = swap
         self.std = std
