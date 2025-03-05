@@ -1,19 +1,13 @@
 import os
 import numpy as np
 import json
-import argparse
 from PIL import Image
 
-DATA_PATH = 'datasets/crowdhuman/'
-OUT_PATH = DATA_PATH + 'annotations/'
+ROOT_PATH = os.getcwd()
+DATA_PATH = os.path.join(ROOT_PATH, 'datasets/crowdhuman/')
+OUT_PATH = os.path.join(DATA_PATH, 'annotations/')
 SPLITS = ['val', 'train']
 DEBUG = False
-MAX_IMAGES = 5000
-
-def make_parser():
-    parser = argparse.ArgumentParser("CrowdHuman to COCO parser")
-    parser.add_argument("-s","--data-size", type=int, default=MAX_IMAGES, help="max number of images to convert")
-    return parser
 
 def load_func(fpath):
     print('fpath', fpath)
@@ -24,9 +18,6 @@ def load_func(fpath):
     return records
 
 if __name__ == '__main__':
-    args = make_parser().parse_args()
-    max_images = args.data_size
-    print('max_images: ', max_images)
     if not os.path.exists(OUT_PATH):
         os.mkdir(OUT_PATH)
     for split in SPLITS:
@@ -39,8 +30,6 @@ if __name__ == '__main__':
         ann_cnt = 0
         video_cnt = 0
         for ann_data in anns_data:
-            if image_cnt >= max_images:
-                break
             image_cnt += 1
             file_path = DATA_PATH + 'CrowdHuman_{}/'.format(split) + '{}.jpg'.format(ann_data['ID'])
             im = Image.open(file_path)

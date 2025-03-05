@@ -5,12 +5,13 @@ import cv2
 
 
 # Use the same script for MOT16
-DATA_PATH = 'datasets/MOT20'
+ROOT_PATH = os.getcwd()
+DATA_PATH =  os.path.join(ROOT_PATH,'datasets/MOT20')
 OUT_PATH = os.path.join(DATA_PATH, 'annotations')
-SPLITS = ['train_half', 'val_half', 'train', 'test']  # --> split training data to train_half and val_half.
+SPLITS = ['train_half', 'val_half', 'train']  # --> split training data to train_half and val_half.
 HALF_VIDEO = True
 CREATE_SPLITTED_ANN = True
-CREATE_SPLITTED_DET = True
+CREATE_SPLITTED_DET = False
 
 
 if __name__ == '__main__':
@@ -44,10 +45,15 @@ if __name__ == '__main__':
             num_images = len([image for image in images if 'jpg' in image])  # half and half
 
             if HALF_VIDEO and ('half' in split):
-                image_range = [0, num_images // 2] if 'train' in split else \
-                              [num_images // 2 + 1, num_images - 1]
+                if 'train' in split:
+                    image_range = [0, int(num_images * 0.75)]  # 75% for training
+                    print('train_half range:', image_range)
+                else:
+                    image_range = [int(num_images * 0.75) + 1, num_images - 1]  # 25% for validation
+                    print('val_half range:', image_range)
             else:
                 image_range = [0, num_images - 1]
+                print('full range:', image_range)
 
             for i in range(num_images):
                 if i < image_range[0] or i > image_range[1]:
@@ -64,9 +70,7 @@ if __name__ == '__main__':
                 out['images'].append(image_info)
             print('{}: {} images'.format(seq, num_images))
             if split != 'test':
-                det_path = os.path.join(seq_path, 'det/det.txt')
                 anns = np.loadtxt(ann_path, dtype=np.float32, delimiter=',')
-                dets = np.loadtxt(det_path, dtype=np.float32, delimiter=',')
                 if CREATE_SPLITTED_ANN and ('half' in split):
                     anns_out = np.array([anns[i] for i in range(anns.shape[0])
                                          if int(anns[i][0]) - 1 >= image_range[0] and
@@ -80,6 +84,8 @@ if __name__ == '__main__':
                                     int(o[6]), int(o[7]), o[8]))
                     fout.close()
                 if CREATE_SPLITTED_DET and ('half' in split):
+                    det_path = os.path.join(seq_path, 'det/det.txt')
+                    dets = np.loadtxt(det_path, dtype=np.float32, delimiter=',')
                     dets_out = np.array([dets[i] for i in range(dets.shape[0])
                                          if int(dets[i][0]) - 1 >= image_range[0] and
                                          int(dets[i][0]) - 1 <= image_range[1]], np.float32)
