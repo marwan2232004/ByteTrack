@@ -76,7 +76,7 @@ class Trainer:
             self.after_train()
 
     def train_in_epoch(self):
-        for self.epoch in range(self.start_epoch, self.max_epoch):
+        for self.epoch in range(self.start_epoch, self.start_epoch + self.max_epoch):
             self.before_epoch()
             self.train_in_iter()
             self.after_epoch()
