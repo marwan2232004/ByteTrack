@@ -76,7 +76,7 @@ class Trainer:
             self.after_train()
 
     def train_in_epoch(self):
-        for self.epoch in range(self.start_epoch, self.start_epoch + self.max_epoch):
+        for self.epoch in range(self.start_epoch, self.max_epoch):
             self.before_epoch()
             self.train_in_iter()
             self.after_epoch()
@@ -281,6 +281,7 @@ class Trainer:
                 else ckpt["start_epoch"]
             )
             self.start_epoch = start_epoch
+            self.max_epoch += start_epoch
             logger.info(
                 "loaded checkpoint '{}' (epoch {})".format(
                     self.args.resume, self.start_epoch
