@@ -58,6 +58,9 @@ if __name__ == '__main__':
             for i in range(num_images):
                 if i < image_range[0] or i > image_range[1]:
                     continue
+                if os.path.exists(os.path.join(data_path, '{}/img1/{:06d}.jpg'.format(seq, i + 1))) == False:
+                    print('image not exist: {}'.format(os.path.join(data_path, '{}/img1/{:06d}.jpg'.format(seq, i + 1))))
+                    continue
                 img = cv2.imread(os.path.join(data_path, '{}/img1/{:06d}.jpg'.format(seq, i + 1)))
                 height, width = img.shape[:2]
                 image_info = {'file_name': '{}/img1/{:06d}.jpg'.format(seq, i + 1),  # image name.
