@@ -100,6 +100,9 @@ def mot20_partition(mot20_path:str, output_path:str, amount:int, shift:int):
                     frame_count += 1
                     source = os.path.join(frames,f"{start_frame:06d}{imExt}")
                     dest =  os.path.join(out_frames,f"{frame_count:06d}{imExt}")
+                    if frames_dict.get(start_frame) is None:
+                        start_frame += 1
+                        continue
                     shutil.copyfile(source, dest)
                     lines = frames_dict[start_frame]
                     for line in lines:
